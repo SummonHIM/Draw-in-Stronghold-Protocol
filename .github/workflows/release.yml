@@ -1,0 +1,47 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Clone Stronghold-Protocol (the packer lives there)
+        run: |
+          git clone --depth 1 --branch v0.3.1 https://github.com/sganggs/Stronghold-Protocol.git "$RUNNER_TEMP/sp"
+
+      - name: Install packer dependencies
+        run: |
+          cd "$RUNNER_TEMP/sp"
+          npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Copy plugin into place
+        run: |
+          mkdir -p "$RUNNER_TEMP/sp/plugins/draw-board"
+          cp -r draw-board/. "$RUNNER_TEMP/sp/plugins/draw-board/"
+
+      - name: Check and pack
+        run: |
+          cd "$RUNNER_TEMP/sp"
+          node tools/plugin.mjs check draw-board --strict
+          node tools/plugin.mjs pack draw-board --zip
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ runner.temp }}/sp/plugins/_dist/draw-board-*.zip

@@ -1,0 +1,19 @@
+{
+  "$schema": "../../../schemas/plugin.schema.json",
+  "manifest": 2,
+  "id": "draw-board",
+  "name": { "zh": "涂鸦画板", "en": "Draw Board" },
+  "description": {
+    "zh": "按住 Alt 键在屏幕上画画，同房间的所有玩家都能看到。有画笔 / 橡皮两种模式，画笔可调颜色与粗细，谁都能清空。",
+    "en": "Hold Alt to draw on screen; everyone in the room sees it. Brush and eraser modes, adjustable brush color and size, clearable by anyone."
+  },
+  "version": "1.0.0",
+  "app": ">=0.3.0 <0.4.0",
+  "api": 1,
+  "class": "trusted",
+  "scope": ["room"],
+  "authors": ["SummonHIM"],
+  "license": "MIT",
+  "permissions": ["trusted.page", "trusted.server"],
+  "entry": { "client": "client.js", "server": "server.js" }
+}

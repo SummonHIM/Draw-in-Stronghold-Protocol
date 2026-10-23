@@ -1,0 +1,25 @@
+{
+  "lock": 1,
+  "id": "draw-board",
+  "version": "1.0.0",
+  "generator": "tools/plugin.mjs pack",
+  "files": {
+    "README.md": {
+      "sha256": "b38b62c6be5a9ec708fb9e6e5a0ef8ff5d35cd53148d2c5facb1eeac58915f4e",
+      "bytes": 3123
+    },
+    "client.js": {
+      "sha256": "32283b35a296fdb670a80f8a1fdc05704c354d61785b940b28ceb6baed83f3d3",
+      "bytes": 12712
+    },
+    "plugin.json": {
+      "sha256": "97aa1491162952c78dca5bc999303cb67e045dc2230850ad9e4b849b9f688e60",
+      "bytes": 757
+    },
+    "server.js": {
+      "sha256": "4e107d6790df1967cbfddcbf26dd529fe42a3560c763d0b1ad2232abbd3e3114",
+      "bytes": 4367
+    }
+  },
+  "spine": {}
+}
