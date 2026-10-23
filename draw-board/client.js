@@ -49,6 +49,11 @@ function syncRoom() {
   ctx.clearRect(0, 0, W, H);
 }
 
+// This player's id ('p_' + 10 hex): the relay requires it so only room members can read or write strokes.
+function readPid() {
+  try { return (appStore && appStore.get && appStore.get().me && appStore.get().me.playerId) || ''; } catch { return ''; }
+}
+
 // ---- state ----
 let paintMode = false;
 let tool = 'brush'; // 'brush' | 'eraser'
@@ -188,7 +193,8 @@ canvas.addEventListener('pointercancel', finishStroke);
 
 // ---- relay ----
 async function postStroke(room, s, pts) {
-  const q = new URLSearchParams({ room, c: s.color.slice(1), w: String(s.width), e: s.erase ? '1' : '0' });
+  const pid = readPid();
+  const q = new URLSearchParams({ room, pid, c: s.color.slice(1), w: String(s.width), e: s.erase ? '1' : '0' });
   q.set('p', encodePoints(pts));
   try { await fetch(`/x/draw-board/strokes?${q.toString()}`, { method: 'POST', cache: 'no-store' }); } catch { /* offline: local drawing still works */ }
 }
@@ -201,8 +207,9 @@ function sendStroke(s) {
 let lastSeq = 0;
 async function poll() {
   if (!currentRoom) return;
+  const pid = readPid();
   try {
-    const res = await fetch(`/x/draw-board/strokes?room=${currentRoom}&since=${lastSeq}`, { cache: 'no-store' });
+    const res = await fetch(`/x/draw-board/strokes?room=${currentRoom}&pid=${pid}&since=${lastSeq}`, { cache: 'no-store' });
     const data = await res.json();
     if (!data || data.ok !== true) return;
     for (const ev of data.events || []) {
@@ -223,7 +230,7 @@ setInterval(poll, 150);
 async function clearAll() {
   strokes.length = 0;
   ctx.clearRect(0, 0, W, H);
-  if (currentRoom) try { await fetch(`/x/draw-board/clear?room=${currentRoom}`, { method: 'POST', cache: 'no-store' }); } catch { /* ignore */ }
+  if (currentRoom) try { await fetch(`/x/draw-board/clear?room=${currentRoom}&pid=${readPid()}`, { method: 'POST', cache: 'no-store' }); } catch { /* ignore */ }
 }
 
 // ---- circular toolbar (visible in paint mode) ----

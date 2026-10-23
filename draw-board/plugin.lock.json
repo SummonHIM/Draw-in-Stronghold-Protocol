@@ -9,16 +9,16 @@
       "bytes": 3123
     },
     "client.js": {
-      "sha256": "32283b35a296fdb670a80f8a1fdc05704c354d61785b940b28ceb6baed83f3d3",
-      "bytes": 12712
+      "sha256": "c4f1b7a747827c0c2fc7698156713ea0da740d91c0d5a075ee29c088fb051843",
+      "bytes": 13049
     },
     "plugin.json": {
       "sha256": "97aa1491162952c78dca5bc999303cb67e045dc2230850ad9e4b849b9f688e60",
       "bytes": 757
     },
     "server.js": {
-      "sha256": "28a507e5534014eea1ff4a8467837ab8004d5a7f96269121ffac6430f3ee2e19",
-      "bytes": 5629
+      "sha256": "3293d6e46fb4dedf25bdfa24676bbc39d059c008f48f5af6175a0d4fcafdf63d",
+      "bytes": 7201
     }
   },
   "spine": {}
